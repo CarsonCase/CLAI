@@ -1,7 +1,7 @@
 # CLAI
 ### AI in the CLI
 
-Very simply, CLAI is a program to inject Chat GPT directly into your linux command line! Here's a few examples of convinient uses:
+CLAI is a program to inject Chat GPT directly into your linux command line! Here's a few examples of convinient uses:
 
 ### Answer Questions
 ```
@@ -16,7 +16,7 @@ python rockPaperScissors.py
 
 ### Read Files
 ```
-cat main.py | sed 's/$/ rewrite the python code in go. Code Only/' | xargs clai > main.go
+s
 ```
 
 ## Instalation

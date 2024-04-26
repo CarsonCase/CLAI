@@ -8,12 +8,18 @@ import (
 	"os"
 	"strings"
 
+	"github.com/CarsonCase/CLAI/cmd"
+
 	"github.com/spf13/viper"
 	"github.com/tmc/langchaingo/llms"
 	"github.com/tmc/langchaingo/llms/openai"
 )
 
 func main() {
+	cmd.Execute()
+}
+
+func propmt() {
 	viper.SetConfigName("config")
 	viper.AddConfigPath("$HOME/.config/clai")
 	err := viper.ReadInConfig()
@@ -46,7 +52,7 @@ func main() {
 
 	ctx := context.Background()
 
-	llm, err := openai.New()
+	llm, err := openai.New(openai.WithModel("gpt-3.5-turbo-0125"))
 	if err != nil {
 		log.Fatal(err)
 	}
