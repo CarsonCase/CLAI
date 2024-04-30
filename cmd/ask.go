@@ -76,7 +76,9 @@ func Propmt(args []string) {
 
 	ctx := context.Background()
 
-	llm, err := openai.New(openai.WithModel("gpt-3.5-turbo-0125"))
+	model := viper.GetString("model")
+
+	llm, err := openai.New(openai.WithModel(model))
 	if err != nil {
 		log.Fatal(err)
 	}
