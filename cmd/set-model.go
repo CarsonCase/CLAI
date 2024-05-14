@@ -18,6 +18,10 @@ var setModelCmd = &cobra.Command{
 	Long: `Sets the AI model to be used.
 
 At the moment you can only use the following models from OpenAI:
+gpt-4o
+	DESCRIPTION: Our most advanced, multimodal flagship model that’s cheaper and faster than GPT-4 Turbo. Currently points to gpt-4o-2024-05-13.
+	CONTEXT WINDOW: 128,000 tokens
+	TRAINING DATA: Up to Oct 2023
 gpt-4-turbo
 	DESCRIPTION: New GPT-4 Turbo with Vision
 	CONTEXT WINDOW: 128,000 tokens
@@ -115,6 +119,7 @@ func init() {
 
 func SetModel(model string) {
 	models := [...]string{
+		"gpt-4o",
 		"gpt-4-turbo",
 		"gpt-4-turbo-2024-04-09",
 		"gpt-4-turbo-preview",
