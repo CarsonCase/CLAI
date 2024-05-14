@@ -25,9 +25,22 @@ var askCmd = &cobra.Command{
 
 ulike with say chatGPT where there is context of previous messages`,
 	Run: func(cmd *cobra.Command, args []string) {
-		Propmt(args)
+		prompt := ConvertAllArgsToPrompt(args)
+		var prompts []string
+		prompts = append(prompts, prompt)
+
+		Propmt(prompts, func(ctx context.Context, llm *openai.LLM, prompts []string) {
+			completion, err := llms.GenerateFromSinglePrompt(ctx, llm, prompts[0])
+			if err != nil {
+				log.Fatal(err)
+			}
+			fmt.Println(completion)
+		})
+
 	},
 }
+
+type GenerateAndPrintLLM func(ctx context.Context, llm *openai.LLM, prompts []string)
 
 func init() {
 	rootCmd.AddCommand(askCmd)
@@ -43,7 +56,17 @@ func init() {
 	// askCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func Propmt(args []string) {
+func ConvertAllArgsToPrompt(args []string) string {
+	prompt := ""
+
+	for _, arg := range args {
+		prompt += arg + " "
+	}
+
+	return prompt
+}
+
+func Propmt(prompts []string, llmResponseAndPrint GenerateAndPrintLLM) {
 	viper.SetConfigName("config")
 	viper.AddConfigPath("$HOME/.config/clai")
 	err := viper.ReadInConfig()
@@ -82,17 +105,5 @@ func Propmt(args []string) {
 	if err != nil {
 		log.Fatal(err)
 	}
-
-	prompt := ""
-
-	for _, arg := range args {
-		prompt += arg + " "
-	}
-
-	completion, err := llms.GenerateFromSinglePrompt(ctx, llm, prompt)
-
-	if err != nil {
-		log.Fatal(err)
-	}
-	fmt.Println(completion)
+	llmResponseAndPrint(ctx, llm, prompts)
 }
