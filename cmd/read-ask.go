@@ -37,8 +37,6 @@ var readAskCmd = &cobra.Command{
 		prompts = append(prompts, prompt)
 		prompts = append(prompts, string(file))
 
-		fmt.Println(prompts)
-
 		Propmt(prompts, func(ctx context.Context, llm *openai.LLM, prompts []string) {
 			completion, err := llms.GenerateFromSinglePrompt(ctx, llm, prompts[0])
 			if err != nil {
